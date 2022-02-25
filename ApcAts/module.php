@@ -18,6 +18,7 @@ class ApcAts extends IPSModule {
 			Array("ident" => "SerialNumber", 			"caption" => "Serial Number", 			"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.1.6.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "CommunicationStatus", 	"caption" => "Communication Status",	"type" => "Integer", 	"profile" => "APCATS.CommunicationStatus", 	"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.1.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "SelectedSource", 			"caption" => "Selected Source", 		"type" => "Integer", 	"profile" => "APCATS.SelectedSource", 		"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.2.0', 		"factor" => false, 	"writeable" => false),
+			Array("ident" => "PreferredSource", 		"caption" => "Preferred Source", 		"type" => "Integer", 	"profile" => "APCATS.SelectedSource", 		"oid" => '.1.3.6.1.4.1.318.1.1.8.4.2.0', 		"factor" => false, 	"writeable" => true ),
 			Array("ident" => "RedundancyState", 		"caption" => "Redundancy State", 		"type" => "Integer", 	"profile" => "APCATS.RedundancyState", 		"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.3.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "OverCurrentState", 		"caption" => "Over Current State", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.4.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "5VSupplyState", 			"caption" => "5V Power Supply State", 	"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.5.0', 		"factor" => false, 	"writeable" => false),
@@ -69,6 +70,7 @@ class ApcAts extends IPSModule {
 		IPS_SetVariableProfileIcon($variableProfileSelectedSource, "Electricity");
 		IPS_SetVariableProfileAssociation($variableProfileSelectedSource, 1, "Source A", "", -1);
 		IPS_SetVariableProfileAssociation($variableProfileSelectedSource, 2, "Source B", "", -1);
+		IPS_SetVariableProfileAssociation($variableProfileSelectedSource, 3, "None", "", -1);
 
 		// Variable profiles
 		$variableProfileRedundancyState = "APCATS.RedundancyState";
