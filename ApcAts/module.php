@@ -17,7 +17,11 @@ class ApcAts extends IPSModule {
 			Array("ident" => "SerialNumber", 			"caption" => "Serial Number", 			"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.1.6.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "CommunicationStatus", 	"caption" => "Serial Number", 			"type" => "Integer", 	"profile" => "APCATS.CommunicationStatus", 	"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.1.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "SelectedSource", 			"caption" => "Selected Source", 		"type" => "Integer", 	"profile" => "APCATS.SelectedSource", 		"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.2.0', 		"factor" => false, 	"writeable" => false),
-			Array("ident" => "RedundancyState", 		"caption" => "Selected Source", 		"type" => "Integer", 	"profile" => "APCATS.RedundancyState", 		"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.3.0', 		"factor" => false, 	"writeable" => false)
+			Array("ident" => "RedundancyState", 		"caption" => "Redundancy State", 		"type" => "Integer", 	"profile" => "APCATS.RedundancyState", 		"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.3.0', 		"factor" => false, 	"writeable" => false),
+			Array("ident" => "OverCurrentState", 		"caption" => "Over Current State", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.4.0', 		"factor" => false, 	"writeable" => false),
+			Array("ident" => "5VSupplyState", 			"caption" => "5V Power Supply State", 	"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.5.0', 		"factor" => false, 	"writeable" => false),
+			Array("ident" => "24VSupplyState", 			"caption" => "24V Power Supply State",	"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.6.0', 		"factor" => false, 	"writeable" => false),
+			Array("ident" => "SwitchStatus", 			"caption" => "Switch Status", 			"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.10.0', 	"factor" => false, 	"writeable" => false),
 		);
 	}
  
@@ -64,8 +68,19 @@ class ApcAts extends IPSModule {
 		}			
 		IPS_CreateVariableProfile($variableProfileRedundancyState, 1);
 		IPS_SetVariableProfileIcon($variableProfileRedundancyState, "Electricity");
-		IPS_SetVariableProfileAssociation($variableProfileRedundancyState, 1, "Redundancy Lost", "", 0xFF0000);
-		IPS_SetVariableProfileAssociation($variableProfileRedundancyState, 2, "Fully Redundant", "", 0x00FF00);
+		IPS_SetVariableProfileAssociation($variableProfileRedundancyState, 1, "Redundancy Lost", "Alert", 0xFF0000);
+		IPS_SetVariableProfileAssociation($variableProfileRedundancyState, 2, "Fully Redundant", "Ok", 0x00FF00);
+
+		// Variable profiles
+		$variableProfilePowerStatus = "APCATS.PowerState";
+		if (IPS_VariableProfileExists($variableProfilePowerStatus) ) {
+
+			IPS_DeleteVariableProfile($variableProfilePowerStatus);
+		}			
+		IPS_CreateVariableProfile($variableProfilePowerStatus, 1);
+		IPS_SetVariableProfileIcon($variableProfilePowerStatus, "Electricity");
+		IPS_SetVariableProfileAssociation($variableProfilePowerStatus, 1, "Failed", "Alert", 0xFF0000);
+		IPS_SetVariableProfileAssociation($variableProfilePowerStatus, 2, "OK", "Ok", 0x00FF00);
 
 		// Variables
 		$stringVariables = $this->GetVariablesByType("String");
