@@ -25,6 +25,7 @@ class ApcAts extends IPSModule {
 			Array("ident" => "FrontPanel", 				"caption" => "Front Panel Status", 		"type" => "Integer", 	"profile" => "APCATS.LockState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.11.0', 	"factor" => false, 	"writeable" => false),
 			Array("ident" => "SourceAStatus", 			"caption" => "Source A Status", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.12.0', 	"factor" => false, 	"writeable" => false),
 			Array("ident" => "SourceBStatus", 			"caption" => "Source B Status", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.13.0', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "PhaseSyncStatus", 		"caption" => "Phase Sync Status", 		"type" => "Integer", 	"profile" => "APCATS.SyncState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.14.0', 	"factor" => false, 	"writeable" => false),
 		);
 	}
  
@@ -95,6 +96,17 @@ class ApcAts extends IPSModule {
 		IPS_SetVariableProfileIcon($variableProfileLockState, "Lock");
 		IPS_SetVariableProfileAssociation($variableProfileLockState, 1, "Locked", "LockClosed", -1);
 		IPS_SetVariableProfileAssociation($variableProfileLockState, 2, "Unlocked", "LockOpen", -1);
+
+		// Variable profiles
+		$variableProfileSyncState = "APCATS.SyncState";
+		if (IPS_VariableProfileExists($variableProfileSyncState) ) {
+
+			IPS_DeleteVariableProfile($variableProfileSyncState);
+		}			
+		IPS_CreateVariableProfile($variableProfileSyncState, 1);
+		IPS_SetVariableProfileIcon($variableProfileSyncState, "Network");
+		IPS_SetVariableProfileAssociation($variableProfileSyncState, 1, "In Sync", "Ok", 0x00FF00);
+		IPS_SetVariableProfileAssociation($variableProfileSyncState, 2, "Out of Sync", "Alert", 0xFF0000);
 
 		// Variables
 		$stringVariables = $this->GetVariablesByType("String");
