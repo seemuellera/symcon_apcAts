@@ -22,6 +22,9 @@ class ApcAts extends IPSModule {
 			Array("ident" => "5VSupplyState", 			"caption" => "5V Power Supply State", 	"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.5.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "24VSupplyState", 			"caption" => "24V Power Supply State",	"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.6.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "SwitchStatus", 			"caption" => "Switch Status", 			"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.10.0', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "FrontPanel", 				"caption" => "Front Panel Status", 		"type" => "Integer", 	"profile" => "APCATS.LockState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.11.0', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "SourceAStatus", 			"caption" => "Source A Status", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.12.0', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "SourceBStatus", 			"caption" => "Source B Status", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.13.0', 	"factor" => false, 	"writeable" => false),
 		);
 	}
  
@@ -81,6 +84,17 @@ class ApcAts extends IPSModule {
 		IPS_SetVariableProfileIcon($variableProfilePowerStatus, "Electricity");
 		IPS_SetVariableProfileAssociation($variableProfilePowerStatus, 1, "Failed", "Alert", 0xFF0000);
 		IPS_SetVariableProfileAssociation($variableProfilePowerStatus, 2, "OK", "Ok", 0x00FF00);
+
+		// Variable profiles
+		$variableProfileLockState = "APCATS.LockState";
+		if (IPS_VariableProfileExists($variableProfileLockState) ) {
+
+			IPS_DeleteVariableProfile($variableProfileLockState);
+		}			
+		IPS_CreateVariableProfile($variableProfileLockState, 1);
+		IPS_SetVariableProfileIcon($variableProfileLockState, "Lock");
+		IPS_SetVariableProfileAssociation($variableProfileLockState, 1, "Locked", "LockClosed", -1);
+		IPS_SetVariableProfileAssociation($variableProfileLockState, 2, "Unlocked", "LockOpen", -1);
 
 		// Variables
 		$stringVariables = $this->GetVariablesByType("String");
