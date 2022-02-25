@@ -15,7 +15,9 @@ class ApcAts extends IPSModule {
 			Array("ident" => "FirmwareVersion", 		"caption" => "Firmware Version", 		"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.1.2.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "ProductModel", 			"caption" => "Product Model", 			"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.1.5.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "SerialNumber", 			"caption" => "Serial Number", 			"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.1.6.0', 		"factor" => false, 	"writeable" => false),
-			Array("ident" => "CommunicationStatus", 	"caption" => "Serial Number", 			"type" => "Integer", 	"profile" => "APCATS.CommunicationStatus", 	"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.1.0', 		"factor" => false, 	"writeable" => false)
+			Array("ident" => "CommunicationStatus", 	"caption" => "Serial Number", 			"type" => "Integer", 	"profile" => "APCATS.CommunicationStatus", 	"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.1.0', 		"factor" => false, 	"writeable" => false),
+			Array("ident" => "SelectedSource", 			"caption" => "Selected Source", 		"type" => "Integer", 	"profile" => "APCATS.SelectedSource", 		"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.2.0', 		"factor" => false, 	"writeable" => false),
+			Array("ident" => "RedundancyState", 		"caption" => "Selected Source", 		"type" => "Integer", 	"profile" => "APCATS.RedundancyState", 		"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.3.0', 		"factor" => false, 	"writeable" => false)
 		);
 	}
  
@@ -43,6 +45,28 @@ class ApcAts extends IPSModule {
 		IPS_SetVariableProfileAssociation($variableProfileCommunicationStatus, 2, "ATS Communication Established", "", 0x00FF00);
 		IPS_SetVariableProfileAssociation($variableProfileCommunicationStatus, 3, "ATS Communication Lost", "", 0xFF0000);
 		
+		// Variable profiles
+		$variableProfileSelectedSource = "APCATS.SelectedSource";
+		if (IPS_VariableProfileExists($variableProfileSelectedSource) ) {
+
+			IPS_DeleteVariableProfile($variableProfileSelectedSource);
+		}			
+		IPS_CreateVariableProfile($variableProfileSelectedSource, 1);
+		IPS_SetVariableProfileIcon($variableProfileSelectedSource, "Electricity");
+		IPS_SetVariableProfileAssociation($variableProfileSelectedSource, 1, "Source A", "", -1);
+		IPS_SetVariableProfileAssociation($variableProfileSelectedSource, 2, "Source B", "", -1);
+
+		// Variable profiles
+		$variableProfileRedundancyState = "APCATS.RedundancyState";
+		if (IPS_VariableProfileExists($variableProfileRedundancyState) ) {
+
+			IPS_DeleteVariableProfile($variableProfileRedundancyState);
+		}			
+		IPS_CreateVariableProfile($variableProfileRedundancyState, 1);
+		IPS_SetVariableProfileIcon($variableProfileRedundancyState, "Electricity");
+		IPS_SetVariableProfileAssociation($variableProfileRedundancyState, 1, "Redundancy Lost", "", 0xFF0000);
+		IPS_SetVariableProfileAssociation($variableProfileRedundancyState, 2, "Fully Redundant", "", 0x00FF00);
+
 		// Variables
 		$stringVariables = $this->GetVariablesByType("String");
 		foreach ($stringVariables as $currentVariable) {
