@@ -12,6 +12,7 @@ class ApcAts extends IPSModule {
 		// Selbsterstellter Code
 		// Define all the data
 		$this->snmpVariables = Array(
+			Array("ident" => "Hostname", 				"caption" => "Hostname", 				"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.4.1.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "FirmwareVersion", 		"caption" => "Firmware Version", 		"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.1.2.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "ProductModel", 			"caption" => "Product Model", 			"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.1.5.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "SerialNumber", 			"caption" => "Serial Number", 			"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.1.6.0', 		"factor" => false, 	"writeable" => false),
@@ -26,6 +27,11 @@ class ApcAts extends IPSModule {
 			Array("ident" => "SourceAStatus", 			"caption" => "Source A Status", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.12.0', 	"factor" => false, 	"writeable" => false),
 			Array("ident" => "SourceBStatus", 			"caption" => "Source B Status", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.13.0', 	"factor" => false, 	"writeable" => false),
 			Array("ident" => "PhaseSyncStatus", 		"caption" => "Phase Sync Status", 		"type" => "Integer", 	"profile" => "APCATS.SyncState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.14.0', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "HardwareStatus", 			"caption" => "Hardware Status", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.16.0', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "SourceAName", 			"caption" => "Source A Name", 			"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.5.3.2.1.6.1', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "SourceBName", 			"caption" => "Source B Name", 			"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.5.3.2.1.6.2', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "SourceAFrequency", 		"caption" => "Source A Frequency", 		"type" => "Float", 		"profile" => "~Hertz.50", 					"oid" => '.1.3.6.1.4.1.318.1.1.8.5.3.2.1.4.1', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "SourceBFrequency", 		"caption" => "Source B Frequency", 		"type" => "Float", 		"profile" => "~Hertz.50", 					"oid" => '.1.3.6.1.4.1.318.1.1.8.5.3.2.1.4.2', 	"factor" => false, 	"writeable" => false),
 		);
 	}
  
