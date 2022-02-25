@@ -29,7 +29,6 @@ class ApcAts extends IPSModule {
 		$this->RegisterPropertyString("Sender","ApcAts");
 		$this->RegisterPropertyInteger("RefreshInterval",0);
 		$this->RegisterPropertyInteger("SnmpInstance",0);
-		$this->RegisterPropertyInteger("OutletIndex",0);
 		$this->RegisterPropertyBoolean("DebugOutput",false);
 
 		// Variable profiles
@@ -249,7 +248,7 @@ class ApcAts extends IPSModule {
 
 		foreach ($this->snmpVariables as $currentVariable) {
 		
-			$mappingTable[$currentVariable['ident']] = $currentVariable['oid'] . "." . $this->ReadPropertyInteger("OutletIndex");
+			$mappingTable[$currentVariable['ident']] = $currentVariable['oid'];
 		}
 
 		return $mappingTable;
@@ -291,7 +290,7 @@ class ApcAts extends IPSModule {
 		
 			if ($currentVariable['ident'] == $ident) {
 			
-				$oid = $currentVariable['oid'] . "." . $this->ReadPropertyInteger("OutletIndex");
+				$oid = $currentVariable['oid'];
 				if ($currentVariable['type'] == 'String') {
 					
 					$type = 's';
