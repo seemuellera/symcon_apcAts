@@ -1,0 +1,11 @@
+{
+    "id": "{2D954064-22BE-4ABD-BDD7-ACA048EA72AE}",
+    "name": "APCATS",
+    "type": 3,
+    "vendor": "",
+    "aliases": [],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "APCATS"
+}
