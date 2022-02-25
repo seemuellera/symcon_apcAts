@@ -25,6 +25,7 @@ class ApcAts extends IPSModule {
 			Array("ident" => "24VSupplyState", 			"caption" => "24V Power Supply State",	"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.6.0', 		"factor" => false, 	"writeable" => false),
 			Array("ident" => "SwitchStatus", 			"caption" => "Switch Status", 			"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.10.0', 	"factor" => false, 	"writeable" => false),
 			Array("ident" => "FrontPanel", 				"caption" => "Front Panel Status", 		"type" => "Integer", 	"profile" => "APCATS.LockState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.11.0', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "FrontPanelLock", 			"caption" => "Front Panel Lock", 		"type" => "Integer", 	"profile" => "APCATS.LockState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.4.3.0', 		"factor" => false, 	"writeable" => true),
 			Array("ident" => "SourceAStatus", 			"caption" => "Source A Status", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.12.0', 	"factor" => false, 	"writeable" => false),
 			Array("ident" => "SourceBStatus", 			"caption" => "Source B Status", 		"type" => "Integer", 	"profile" => "APCATS.PowerState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.13.0', 	"factor" => false, 	"writeable" => false),
 			Array("ident" => "PhaseSyncStatus", 		"caption" => "Phase Sync Status", 		"type" => "Integer", 	"profile" => "APCATS.SyncState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.1.14.0', 	"factor" => false, 	"writeable" => false),
@@ -33,6 +34,11 @@ class ApcAts extends IPSModule {
 			Array("ident" => "SourceBName", 			"caption" => "Source B Name", 			"type" => "String", 	"profile" => false, 						"oid" => '.1.3.6.1.4.1.318.1.1.8.5.3.2.1.6.2', 	"factor" => false, 	"writeable" => false),
 			Array("ident" => "SourceAFrequency", 		"caption" => "Source A Frequency", 		"type" => "Float", 		"profile" => "~Hertz.50", 					"oid" => '.1.3.6.1.4.1.318.1.1.8.5.3.2.1.4.1', 	"factor" => false, 	"writeable" => false),
 			Array("ident" => "SourceBFrequency", 		"caption" => "Source B Frequency", 		"type" => "Float", 		"profile" => "~Hertz.50", 					"oid" => '.1.3.6.1.4.1.318.1.1.8.5.3.2.1.4.2', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "OutputFrequency", 		"caption" => "Output Frequency", 		"type" => "Float", 		"profile" => "~Hertz.50", 					"oid" => '.1.3.6.1.4.1.318.1.1.8.5.4.2.1.4.1', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "OutputVoltage", 			"caption" => "Output Voltage", 			"type" => "Float", 		"profile" => "~Volt.230", 					"oid" => '.1.3.6.1.4.1.318.1.1.8.5.4.3.1.3.1.1.1', 	"factor" => false, 	"writeable" => false),
+			Array("ident" => "OutputCurrent", 			"caption" => "Output Current", 			"type" => "Float", 		"profile" => "~Ampere.16", 					"oid" => '.1.3.6.1.4.1.318.1.1.8.5.4.3.1.4.1.1.1', 	"factor" => 0.1, 	"writeable" => false),
+			Array("ident" => "OutputPower", 			"caption" => "Output Power", 			"type" => "Float", 		"profile" => "~Watt.3680", 					"oid" => '.1.3.6.1.4.1.318.1.1.8.5.4.3.1.13.1.1.1', "factor" => false, 	"writeable" => false),
+			Array("ident" => "OutputPhaseState", 		"caption" => "Output Phase State", 		"type" => "Integer", 	"profile" => "APCATS.PhaseState", 			"oid" => '.1.3.6.1.4.1.318.1.1.8.5.4.3.1.19.1.1.1', 	"factor" => false, 	"writeable" => false),
 		);
 	}
  
@@ -115,6 +121,19 @@ class ApcAts extends IPSModule {
 		IPS_SetVariableProfileIcon($variableProfileSyncState, "Network");
 		IPS_SetVariableProfileAssociation($variableProfileSyncState, 1, "In Sync", "Ok", 0x00FF00);
 		IPS_SetVariableProfileAssociation($variableProfileSyncState, 2, "Out of Sync", "Alert", 0xFF0000);
+
+		// Variable profiles
+		$variableProfilePhaseState = "APCATS.PhaseState";
+		if (IPS_VariableProfileExists($variableProfilePhaseState) ) {
+
+			IPS_DeleteVariableProfile($variableProfilePhaseState);
+		}			
+		IPS_CreateVariableProfile($variableProfilePhaseState, 1);
+		IPS_SetVariableProfileIcon($variableProfilePhaseState, "Elictricity");
+		IPS_SetVariableProfileAssociation($variableProfilePhaseState, 1, "Normal", "Ok", 0x00FF00);
+		IPS_SetVariableProfileAssociation($variableProfilePhaseState, 2, "Low Load", "Alert", 0xFFFF00);
+		IPS_SetVariableProfileAssociation($variableProfilePhaseState, 3, "Near Overload", "Alert", 0xFFFF00);
+		IPS_SetVariableProfileAssociation($variableProfilePhaseState, 4, "Overload", "Alert", 0xFF0000);
 
 		// Variables
 		$stringVariables = $this->GetVariablesByType("String");
